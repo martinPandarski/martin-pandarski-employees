@@ -2,6 +2,7 @@ import moment from "moment";
 import { getDays } from "./days";
 
 export function getEmployeeInfo(parsedData) {
+  console.log(parsedData);
   let res = [];
   for (let i = 0; i < parsedData.length; i++) {
     let currentEmployee = parsedData[i];

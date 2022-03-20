@@ -1,4 +1,5 @@
 import { DataGrid as MuiDataGrid, } from "@mui/x-data-grid"
+import { uniqueId } from "lodash"
 import { useMemo, useState } from "react"
 import { getEmployeeInfo } from "../../utils/employees"
 
@@ -34,15 +35,22 @@ export default function DataGrid({ data }) {
 
 
 
-    return (<div style={{ height: '100vh', width: '100%' }}><MuiDataGrid disableSelectionOnClick disableColumnMenu columns={columns} rows={
-        rowsData.map(row => {
-            return {
-                id: row.projectId,
-                col1: row["empId #1"],
-                col2: row["empId #2"],
-                col3: row.projectId,
-                col4: row.daysWork,
-            }
-        })
-    } /></div>)
+    return (<div style={{ height: '100vh', width: '100%' }}>
+        <MuiDataGrid
+            hideFooterSelectedRowCount
+            hideFooterPagination
+            disableSelectionOnClick
+            disableColumnMenu
+            columns={columns}
+            rows={
+                rowsData.map(row => {
+                    return {
+                        id: uniqueId(),
+                        col1: row["empId #1"],
+                        col2: row["empId #2"],
+                        col3: row.projectId,
+                        col4: row.daysWork,
+                    }
+                })
+            } /></div>)
 }
