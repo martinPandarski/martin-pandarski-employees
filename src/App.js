@@ -36,6 +36,7 @@ function App() {
   }, [file]);
   return (
     <div className="App">
+      <h2>Pair employees who have worked together</h2>
       <Paper component={"form"} className="form">
         <Input
           type={"file"}

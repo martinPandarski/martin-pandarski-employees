@@ -1,24 +1,9 @@
 import moment from "moment";
 import { getDays } from "./days";
-
-export function getEmployeeInfo(employee1, employee2) {
-  if (
-    moment(employee1.DateFrom).isBetween(employee2.DateFrom, employee2.DateTo)
-  )
-    return true;
-
-  if (
-    moment(employee2.DateFrom).isBetween(employee1.DateFrom, employee1.DateTo)
-  )
-    return true;
-
-  if (moment(employee1.DateFrom).isSame(employee2.DateFrom)) return true;
-
-  return false;
-}
+import { getEmployeeInfo } from "./employeeInfo";
 
 export function pairWorkedLongest(parsedData = []) {
-  let pairs = {};
+  let employeePairs = {};
   parsedData
     .sort(
       (firstEmployee, secondEmployee) =>
@@ -34,57 +19,58 @@ export function pairWorkedLongest(parsedData = []) {
       if (!getEmployeeInfo(employee, arr[i + 1])) {
         return;
       }
-      pairs[employee.projectId] = {
+      employeePairs[employee.projectId] = {
         employees: [employee, arr[i + 1]],
         daysWorked: 0,
       };
     });
-  const pairsLength = Object.keys(pairs).length;
-  if (pairsLength < 1) {
+  if (Object.keys(employeePairs).length < 1) {
     return null;
   }
-  const calcDaysWorkedTogether = Object.values(pairs).map((employeePair) => {
-    const { employees } = employeePair;
-    const emp1 = employees[0];
-    const emp2 = employees[1];
+  const daysSpentWorkingTogether = Object.values(employeePairs).map(
+    (employeePair) => {
+      const { employees } = employeePair;
+      const employee1 = employees[0];
+      const employee2 = employees[1];
 
-    let employee1day = moment(emp1.dateFrom).isSame(emp2.dateFrom)
-      ? emp1.dateFrom
-      : 0;
-    let employee2day = moment(emp1.dateTo).isSame(emp2.dateTo)
-      ? emp1.dateTo
-      : 0;
+      let employee1day = moment(employee1.dateFrom).isSame(employee2.dateFrom)
+        ? employee1.dateFrom
+        : 0;
+      let employee2day = moment(employee1.dateTo).isSame(employee2.dateTo)
+        ? employee1.dateTo
+        : 0;
 
-    if (emp1.dateFrom < emp2.dateFrom) {
-      employee1day = emp2.dateFrom;
+      if (employee1.dateFrom < employee2.dateFrom) {
+        employee1day = employee2.dateFrom;
+      }
+      if (employee1.dateFrom > employee2.dateFrom) {
+        employee1day = employee1.dateFrom;
+      }
+
+      if (employee1.dateTo < employee2.dateTo) {
+        employee2day = employee1.dateTo;
+      }
+      if (employee1.dateTo > employee2.dateTo) {
+        employee2day = employee2.dateTo;
+      }
+
+      const daysWorked = getDays(employee1day, employee2day);
+
+      return {
+        daysWorked,
+        employees,
+      };
     }
-    if (emp1.dateFrom > emp2.dateFrom) {
-      employee1day = emp1.dateFrom;
-    }
+  );
 
-    if (emp1.dateTo < emp2.dateTo) {
-      employee2day = emp1.dateTo;
+  let totalSum = 0;
+  daysSpentWorkingTogether.forEach((employeePair) => {
+    if (employeePair.daysWorked > totalSum) {
+      totalSum = employeePair.daysWorked;
     }
-    if (emp1.dateTo > emp2.dateTo) {
-      employee2day = emp2.dateTo;
-    }
-
-    const daysWorked = getDays(employee1day, employee2day);
-
-    return {
-      daysWorked,
-      employees,
-    };
   });
-
-  let biggestSum = 0;
-  calcDaysWorkedTogether.forEach((employeePair) => {
-    if (employeePair.daysWorked > biggestSum) {
-      biggestSum = employeePair.daysWorked;
-    }
-  });
-  const pairToDisplay = calcDaysWorkedTogether.find(
-    (pair) => pair.daysWorked === biggestSum
+  const pairToDisplay = daysSpentWorkingTogether.find(
+    (pair) => pair.daysWorked === totalSum
   );
 
   return pairToDisplay;
