@@ -23,13 +23,12 @@ export function getEmployeeInfo(parsedData) {
             currentEmployeeStartDay,
             currentEmployeeEndDay
           );
-          let result = {
+          res.push({
             "empId #1": currentEmployee.empId,
             "empId #2": nextEmployee.empId,
             projectId: currentEmployee.projectId,
             daysWork: daysWorked,
-          };
-          res.push(result);
+          });
         }
         if (
           currentEmployeeStartDay < nextEmployeeStartDay &&
@@ -40,13 +39,12 @@ export function getEmployeeInfo(parsedData) {
             nextEmployeeStartDay,
             currentEmployeeEndDay
           );
-          let result = {
+          res.push({
             "empId #1": currentEmployee.empId,
             "empId #2": nextEmployee.empId,
             projectId: nextEmployee.projectId,
             daysWork: daysWorked,
-          };
-          res.push(result);
+          });
         }
         if (
           currentEmployeeStartDay > nextEmployeeStartDay &&
@@ -56,27 +54,24 @@ export function getEmployeeInfo(parsedData) {
             currentEmployeeStartDay,
             nextEmployeeEndDay
           );
-
-          let result = {
+          res.push({
             "empId #1": currentEmployee.empId,
             "empId #2": nextEmployee.empId,
             projectId: nextEmployee.projectId,
             daysWork: daysWorked,
-          };
-          res.push(result);
+          });
         }
         if (
           currentEmployeeStartDay === nextEmployeeStartDay &&
           currentEmployeeEndDay > nextEmployeeEndDay
         ) {
           const daysWorked = getDays(nextEmployeeEndDay, nextEmployeeStartDay);
-          let result = {
+          res.push({
             "empId #1": currentEmployee.empId,
             "empId #2": nextEmployee.empId,
             projectId: nextEmployee.projectId,
             daysWork: daysWorked,
-          };
-          res.push(result);
+          });
         }
         if (
           currentEmployeeStartDay === nextEmployeeStartDay &&
@@ -86,13 +81,12 @@ export function getEmployeeInfo(parsedData) {
             currentEmployeeEndDay,
             nextEmployeeStartDay
           );
-          let result = {
+          res.push({
             "empId #1": currentEmployee.empId,
             "empId #2": nextEmployee.empId,
             projectId: nextEmployee.projectId,
             daysWork: daysWorked,
-          };
-          res.push(result);
+          });
         }
         if (
           currentEmployeeStartDay > nextEmployeeStartDay &&
@@ -102,13 +96,12 @@ export function getEmployeeInfo(parsedData) {
             currentEmployeeStartDay,
             currentEmployeeEndDay
           );
-          let result = {
+          res.push({
             "empId #1": currentEmployee.empId,
             "empId #2": nextEmployee.empId,
             projectId: nextEmployee.projectId,
             daysWork: daysWorked,
-          };
-          res.push(result);
+          });
         }
         if (
           currentEmployeeStartDay < nextEmployeeStartDay &&
@@ -118,14 +111,12 @@ export function getEmployeeInfo(parsedData) {
             nextEmployeeStartDay,
             currentEmployeeEndDay
           );
-
-          let result = {
+          res.push({
             "empId #1": currentEmployee.empId,
             "empId #2": nextEmployee.empId,
             projectId: nextEmployee.projectId,
             daysWork: daysWorked,
-          };
-          res.push(result);
+          });
         }
         if (
           currentEmployeeStartDay === nextEmployeeStartDay &&
@@ -135,13 +126,12 @@ export function getEmployeeInfo(parsedData) {
             nextEmployeeStartDay,
             currentEmployeeEndDay
           );
-          let result = {
+          res.push({
             "empId #1": currentEmployee.empId,
             "empId #2": nextEmployee.empId,
             projectId: nextEmployee.projectId,
             daysWork: daysWorked,
-          };
-          res.push(result);
+          });
         }
       }
     }
