@@ -28,8 +28,7 @@ export function pairWorkedLongest(parsedData = []) {
     return null;
   }
   const daysSpentWorkingTogether = Object.values(employeePairs).map(
-    (employeePair) => {
-      const { employees } = employeePair;
+    ({ employees }) => {
       const employee1 = employees[0];
       const employee2 = employees[1];
 
@@ -63,15 +62,15 @@ export function pairWorkedLongest(parsedData = []) {
     }
   );
 
-  let totalSum = 0;
+  let totalDays = 0;
   daysSpentWorkingTogether.forEach((employeePair) => {
-    if (employeePair.daysWorked > totalSum) {
-      totalSum = employeePair.daysWorked;
+    if (employeePair.daysWorked > totalDays) {
+      totalDays = employeePair.daysWorked;
     }
   });
-  const pairToDisplay = daysSpentWorkingTogether.find(
-    (pair) => pair.daysWorked === totalSum
+  const finalPair = daysSpentWorkingTogether.find(
+    (pair) => pair.daysWorked === totalDays
   );
 
-  return pairToDisplay;
+  return finalPair;
 }
