@@ -1,5 +1,5 @@
 import { Button, Paper, styled } from "@mui/material";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import DataGrid from "./components/DataGrid/DataGrid";
 import "./App.css";
 
@@ -32,6 +32,7 @@ function App() {
       };
       fileReader.readAsText(file);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
   return (
     <div className="App">
